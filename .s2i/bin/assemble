@@ -82,19 +82,21 @@ if [ "$NODE_ENV" != "production" ]; then
 
 	echo "---> Building your Node application from source"
 	npm install --prefix ./demo
-	npm install babel-cli
+	npm install -g babel-cli
 	npm run babel-server-test
 	npm run webpack
-	npm install http-server
+	npm install -g http-server
 
 else
 
 	echo "---> Installing all dependencies"
 	NODE_ENV=development npm install --prefix ./demo
 
+	echo "---> Installing babel-cli"
+	npm install -g babel-cli
+
 	#Create the published files you will need to run the express application to test server-side changes.
 	echo "---> Running babel-server-test in production mode"
-	npm install babel-cli
 	npm run babel-server-test
 
     #Create the client-side files you will need to test client-side changes.
@@ -102,7 +104,7 @@ else
 	npm run webpack
 
     echo "---> Installling http-server"
-	npm install http-server
+	npm install -g http-server
 
 	echo "---> Pruning the development dependencies"
 	npm prune
