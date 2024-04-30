@@ -107,7 +107,7 @@ else
 	echo "---> Running webpack in production mode"
 	npm run webpack
 
-    echo "---> Installling http-server"
+    echo "---> Installing http-server"
 	npm install -g http-server
 
 	#echo "---> Pruning the development dependencies"
