@@ -81,6 +81,7 @@ fi
 if [ "$NODE_ENV" != "production" ]; then
 
 	echo "---> Building your Node application from source"
+	npm install
 	npm install --prefix ./demo
 	npm install -g babel-cli
 	npm run babel-server-test
@@ -90,6 +91,9 @@ if [ "$NODE_ENV" != "production" ]; then
 else
 
 	echo "---> Installing all dependencies"
+	NODE_ENV=development npm install
+
+	echo "---> Installing dependencies into ./demo"
 	NODE_ENV=development npm install --prefix ./demo
 
 	echo "---> Installing babel-cli"
@@ -106,11 +110,8 @@ else
     echo "---> Installling http-server"
 	npm install -g http-server
 
-	echo "---> Pruning the development dependencies"
-	npm prune
-
-    echo "---> Installling http-server"
-	npm install http-server
+	#echo "---> Pruning the development dependencies"
+	#npm prune
 
 	NPM_TMP=$(npm config get tmp)
 	if ! mountpoint $NPM_TMP; then
