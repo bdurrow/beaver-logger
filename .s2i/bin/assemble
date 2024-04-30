@@ -81,19 +81,32 @@ fi
 if [ "$NODE_ENV" != "production" ]; then
 
 	echo "---> Building your Node application from source"
-	npm install
+	npm install --prefix ./demo
+	npm run babel-server-test
+	npm run webpack
+	npm install http-server
 
 else
 
 	echo "---> Installing all dependencies"
-	NODE_ENV=development npm install
+	NODE_ENV=development npm install --prefix ./demo
 
-	#do not fail when there is no build script
-	echo "---> Building in production mode"
-	npm run ${NPM_BUILD:-build} --if-present
+	#Create the published files you will need to run the express application to test server-side changes.
+	echo "---> Running babel-server-test in production mode"
+	npm run babel-server-test
+
+    #Create the client-side files you will need to test client-side changes.
+	echo "---> Running webpack in production mode"
+	npm run webpack
+
+    echo "---> Installling http-server"
+	npm install http-server
 
 	echo "---> Pruning the development dependencies"
 	npm prune
+
+    echo "---> Installling http-server"
+	npm install http-server
 
 	NPM_TMP=$(npm config get tmp)
 	if ! mountpoint $NPM_TMP; then
